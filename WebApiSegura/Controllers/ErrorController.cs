@@ -130,6 +130,43 @@ namespace WebApiSegura.Controllers
             return Ok(error);
         }
 
+        [HttpPut]
+        public IHttpActionResult Actuaizar(Error error)
+        {
+            if (error == null)
+                return BadRequest();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["INTERNET_BANKING"].ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(@"UPDATE Error SET CodigoUsuario = @CodigoUsuario, FechaHora = @FechaHora, Fuente = @Fuente, Numero = @Numero, Descripcion = @Descripcion, Vista = @Vista, Accion = @Accion WHERE Codigo = @Codigo)", sqlConnection);
+
+                    sqlCommand.Parameters.AddWithValue("@Codigo", error.Codigo);
+                    sqlCommand.Parameters.AddWithValue("@CodigoUsuario", error.CodigoUsuario);
+                    sqlCommand.Parameters.AddWithValue("@FechaHora", error.FechaHora);
+                    sqlCommand.Parameters.AddWithValue("@Fuente", error.Fuente);
+                    sqlCommand.Parameters.AddWithValue("@Numero", error.Numero);
+                    sqlCommand.Parameters.AddWithValue("@Descripcion", error.Descripcion);
+                    sqlCommand.Parameters.AddWithValue("@Vista", error.Vista);
+                    sqlCommand.Parameters.AddWithValue("@Accion", error.Accion);
+
+                    sqlConnection.Open();
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+
+                    sqlConnection.Close();
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                return InternalServerError(e);
+            }
+
+            return Ok(error);
+        }
+
         [HttpDelete]
         public IHttpActionResult Eliminar(int id)
         {

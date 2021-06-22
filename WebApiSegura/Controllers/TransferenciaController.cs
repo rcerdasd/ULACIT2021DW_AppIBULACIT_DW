@@ -127,6 +127,44 @@ namespace WebApiSegura.Controllers
             return Ok(transferencia);
         }
 
+
+        [HttpPut]
+        public IHttpActionResult Actualizar(Transferencia transferencia)
+        {
+            if (transferencia == null)
+                return BadRequest();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["INTERNET_BANKING"].ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(@"UPDATE Transferencia CuentaOrigen = @CuentaOrigen, CuentaDestino = @CuentaDestino, FechaHora = @FechaHora, Descripcion = @Descripcion, Monto = @Monto, Estado = @Estado WHERE Codigo = @Codigo", sqlConnection);
+
+                    sqlCommand.Parameters.AddWithValue("@Codigo", transferencia.Codigo);
+                    sqlCommand.Parameters.AddWithValue("@CuentaOrigen", transferencia.CuentaOrigen);
+                    sqlCommand.Parameters.AddWithValue("@CuentaDestino", transferencia.CuentaDestino);
+                    sqlCommand.Parameters.AddWithValue("@FechaHora", transferencia.FechaHora);
+                    sqlCommand.Parameters.AddWithValue("@Descripcion", transferencia.Descripcion);
+                    sqlCommand.Parameters.AddWithValue("@Monto", transferencia.Monto);
+                    sqlCommand.Parameters.AddWithValue("@Estado", transferencia.Estado);
+
+                    sqlConnection.Open();
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+
+                    sqlConnection.Close();
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                return InternalServerError(e);
+            }
+
+            return Ok(transferencia);
+        }
+
+
         [HttpDelete]
         public IHttpActionResult Eliminar(int id)
         {

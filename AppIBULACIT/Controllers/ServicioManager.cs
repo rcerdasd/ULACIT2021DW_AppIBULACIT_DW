@@ -10,54 +10,54 @@ using System.Web;
 
 namespace AppIBULACIT.Controllers
 {
-    public class CuentaManager
+    public class ServicioManager
     {
-        string UrlBase = "http://localhost:49220/api/Cuenta/";
+        string UrlBase = "http://localhost:49220/api/Servicio/";
 
         HttpClient GetClient(string token)
         {
             HttpClient httpClient = new HttpClient();
 
-            httpClient.DefaultRequestHeaders.Add("Authorization",token);
+            httpClient.DefaultRequestHeaders.Add("Authorization", token);
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
             return httpClient;
         }
 
-        public async Task<Cuenta> ObtenerCuenta(string token, string codigo)
+        public async Task<Servicio> ObtenerServicio(string token, string codigo)
         {
             HttpClient httpClient = GetClient(token);
 
             var response = await httpClient.GetStringAsync(string.Concat(UrlBase, codigo));
 
-            return JsonConvert.DeserializeObject<Cuenta>(response);
+            return JsonConvert.DeserializeObject<Servicio>(response);
         }
 
-        public async Task<IEnumerable<Cuenta>> ObtenerCuentas(string token)
+        public async Task<IEnumerable<Servicio>> ObtenerServicios(string token)
         {
             HttpClient httpClient = GetClient(token);
 
             var response = await httpClient.GetStringAsync(UrlBase);
 
-            return JsonConvert.DeserializeObject<IEnumerable<Cuenta>>(response);
+            return JsonConvert.DeserializeObject<IEnumerable<Servicio>>(response);
         }
 
-        public async Task<Cuenta> Ingresar (Cuenta cuenta, string token)
+        public async Task<Servicio> Ingresar(Servicio servicio, string token)
         {
             HttpClient httpClient = GetClient(token);
 
-            var response = await httpClient.PostAsync(UrlBase, new StringContent(JsonConvert.SerializeObject(cuenta), Encoding.UTF8, "application/json"));
+            var response = await httpClient.PostAsync(UrlBase, new StringContent(JsonConvert.SerializeObject(servicio), Encoding.UTF8, "application/json"));
 
-            return JsonConvert.DeserializeObject<Cuenta>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Servicio>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<Cuenta> Actualizar(Cuenta cuenta, string token)
+        public async Task<Servicio> Actualizar(Servicio servicio, string token)
         {
             HttpClient httpClient = GetClient(token);
 
-            var response = await httpClient.PutAsync(UrlBase, new StringContent(JsonConvert.SerializeObject(cuenta), Encoding.UTF8, "application/json"));
+            var response = await httpClient.PutAsync(UrlBase, new StringContent(JsonConvert.SerializeObject(servicio), Encoding.UTF8, "application/json"));
 
-            return JsonConvert.DeserializeObject<Cuenta>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Servicio>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<string> Eliminar(string token, string codigo)
@@ -68,5 +68,6 @@ namespace AppIBULACIT.Controllers
 
             return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
         }
+
     }
 }

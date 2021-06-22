@@ -125,6 +125,41 @@ namespace WebApiSegura.Controllers
             return Ok(pago);
         }
 
+        [HttpPut]
+        public IHttpActionResult Actualizar(Pago pago)
+        {
+            if (pago == null)
+                return BadRequest();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["INTERNET_BANKING"].ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(@"UPDATE Pago CodigoServicio = @CodigoServicio, CodigoCuenta = @CodigoCuenta, CodigoMoneda = @CodigoMoneda, FechaHora = @FechaHora, Monto = @Monto WHERE Codigo = @Codigo", sqlConnection);
+
+                    sqlCommand.Parameters.AddWithValue("@Codigo", pago.Codigo);
+                    sqlCommand.Parameters.AddWithValue("@CodigoServicio", pago.CodigoServicio);
+                    sqlCommand.Parameters.AddWithValue("@CodigoCuenta", pago.CodigoCuenta);
+                    sqlCommand.Parameters.AddWithValue("@CodigoMoneda", pago.CodigoMoneda);
+                    sqlCommand.Parameters.AddWithValue("@FechaHora", pago.FechaHora);
+                    sqlCommand.Parameters.AddWithValue("@Monto", pago.Monto);
+
+                    sqlConnection.Open();
+
+                    int filasAfectadas = sqlCommand.ExecuteNonQuery();
+
+                    sqlConnection.Close();
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                return InternalServerError(e);
+            }
+
+            return Ok(pago);
+        }
+
         [HttpDelete]
         public IHttpActionResult Eliminar(int id)
         {
