@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Registro</title>
-          <style>
+      <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
@@ -141,7 +141,7 @@ hr {
               width: 173px;
               height: 179px;
           }
-      </style> 
+      </style>  
 </head>
 <body>
     <div id="myModal" class="modal">
@@ -167,11 +167,11 @@ hr {
                 <asp:TextBox Placeholder="Confirme su contraseña" TextMode="Password" ID="txtConfirmarPassword" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="rfvConfirmarPassword" runat="server" ErrorMessage="La confirmacion es requerida" ControlToValidate="txtConfirmarPassword"></asp:RequiredFieldValidator>
                 <asp:CompareValidator ID="cvPassword" runat="server" ErrorMessage="La contraseña no coincide" ControlToValidate="txtPassword" ControlToCompare="txtConfirmarPassword"></asp:CompareValidator>
-                <asp:Label ID="lblStatus" runat="server" Text="Error" Visible="false"></asp:Label>
+                <asp:Label ID="lblStatus" runat="server" Text="Error" Visible="false" ForeColor="Maroon"></asp:Label>
             </div>
             <div class="container" style="background-color:white">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="cancelbtn" OnClick="btnAceptar_Click"/>
-                <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="cancelbtn" />
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="normalbtn" OnClick="btnAceptar_Click"/>
+                <input type="reset" value="Limpiar" class="cancelbtn" />
             </div>
         </form>
     </div>

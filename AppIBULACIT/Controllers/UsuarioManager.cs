@@ -15,10 +15,8 @@ namespace AppIBULACIT.Controllers
         string UrlAuthenticate = "http://localhost:49220/api/login/authenticate/";
         string UrlRegister = "http://localhost:49220/api/login/register/";
 
-        public async Task<Usuario> Autenticar(string username, string password)
+        public async Task<Usuario> Autenticar(LoginRequest loginRequest)
         {
-            LoginRequest loginRequest = new LoginRequest() { Username = username, Password = password };
-
             HttpClient httpClient = new HttpClient();
 
             var response = await 
